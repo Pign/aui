@@ -1,4 +1,4 @@
-package com.aui.helloworld
+package com.aui.counter
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -18,32 +18,38 @@ import androidx.compose.ui.draw.*
 
 @Composable
 fun MainScreen() {
+    var count by remember { mutableStateOf(0) }
+
     Column(
         modifier = Modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = "Hello from AUI!",
+            text = "Counter",
             style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.Bold
         )
+        Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = "Native Android, written in Haxe",
-            color = Color.Gray
+            text = "$count",
+            style = MaterialTheme.typography.displayLarge
         )
         Spacer(modifier = Modifier.weight(1f))
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text(
-                text = "Powered by"
-            )
-            Text(
-                text = "Jetpack Compose",
-                color = Color.Blue,
-                fontWeight = FontWeight.Bold
-            )
+            Button(
+                onClick = { count-- }
+            ) {
+                Text("-")
+            }
+            Button(
+                onClick = { count++ }
+            ) {
+                Text("+")
+            }
         }
         Spacer(modifier = Modifier.weight(1f))
     }
