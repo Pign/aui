@@ -28,98 +28,552 @@ import androidx.compose.ui.draw.*
 
 @Composable
 fun MainScreen() {
-    var taskCount by remember { mutableStateOf(3) }
-    var newTask by remember { mutableStateOf("") }
-    var showDone by remember { mutableStateOf(false) }
+    var task1Done by remember { mutableStateOf(false) }
+    var task2Done by remember { mutableStateOf(false) }
+    var task3Done by remember { mutableStateOf(false) }
+    var task4Done by remember { mutableStateOf(false) }
+    var task5Done by remember { mutableStateOf(false) }
+    var task6Done by remember { mutableStateOf(false) }
+    var noteText by remember { mutableStateOf("") }
+    var notifications by remember { mutableStateOf(true) }
+    var showConfirm by remember { mutableStateOf(false) }
+    var compactMode by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier.padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "My Tasks",
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = "$taskCount tasks remaining",
-            color = Color.Gray
-        )
-        HorizontalDivider()
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            OutlinedTextField(
-                value = newTask,
-                onValueChange = { newTask = it },
-                label = { Text("Add a task...") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Button(
-                onClick = { taskCount++ }
-            ) {
-                Text("Add")
+    var selectedTab by remember { mutableStateOf(0) }
+
+    Scaffold(
+        bottomBar = {
+            NavigationBar {
+                NavigationBarItem(
+                    selected = selectedTab == 0,
+                    onClick = { selectedTab = 0 },
+                    icon = { Icon(Icons.Filled.List, contentDescription = "Tasks") },
+                    label = { Text("Tasks") }
+                )
+                NavigationBarItem(
+                    selected = selectedTab == 1,
+                    onClick = { selectedTab = 1 },
+                    icon = { Icon(Icons.Filled.Edit, contentDescription = "Notes") },
+                    label = { Text("Notes") }
+                )
+                NavigationBarItem(
+                    selected = selectedTab == 2,
+                    onClick = { selectedTab = 2 },
+                    icon = { Icon(Icons.Filled.Settings, contentDescription = "Settings") },
+                    label = { Text("Settings") }
+                )
             }
         }
-        Column(
-            modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
-        ) {
-            Card(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Learn Haxe",
-                        modifier = Modifier.padding(12.dp)
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Button(
-                        onClick = { taskCount-- }
-                    ) {
-                        Text("Done")
-                    }
+    ) { innerPadding ->
+        when (selectedTab) {
+            0 -> {
+                Column(modifier = Modifier.padding(innerPadding)) {
+                                Column(
+                                    modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState())
+                                ) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Column(
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            Text(
+                                                text = "My Tasks",
+                                                style = MaterialTheme.typography.headlineLarge,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                            Text(
+                                                text = "Tap to mark as done",
+                                                color = Color.Gray,
+                                                style = MaterialTheme.typography.bodyMedium
+                                            )
+                                        }
+                                        Spacer(modifier = Modifier.weight(1f))
+                                    }
+                                    HorizontalDivider()
+                                    Text(
+                                        text = "Work",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.padding(vertical = 8.dp)
+                                    )
+                                    if (task1Done) {
+                                        Card(
+                                            modifier = Modifier.alpha(0.5f).fillMaxWidth()
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(12.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = "  ",
+                                                    modifier = Modifier.background(Color.Green).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                )
+                                                Text(
+                                                    text = "Design new landing page",
+                                                    color = Color.Gray,
+                                                    style = MaterialTheme.typography.bodyLarge
+                                                )
+                                                Spacer(modifier = Modifier.weight(1f))
+                                                Button(
+                                                    onClick = { task1Done = !task1Done }
+                                                ) {
+                                                    Text("Undo")
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        Card(
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(12.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = "  ",
+                                                    modifier = Modifier.background(MaterialTheme.colorScheme.primary).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                )
+                                                Text(
+                                                    text = "Design new landing page",
+                                                    style = MaterialTheme.typography.bodyLarge
+                                                )
+                                                Spacer(modifier = Modifier.weight(1f))
+                                                Button(
+                                                    onClick = { task1Done = !task1Done }
+                                                ) {
+                                                    Text("Done")
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (task2Done) {
+                                        Card(
+                                            modifier = Modifier.alpha(0.5f).fillMaxWidth()
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(12.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = "  ",
+                                                    modifier = Modifier.background(Color.Green).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                )
+                                                Text(
+                                                    text = "Review pull requests",
+                                                    color = Color.Gray,
+                                                    style = MaterialTheme.typography.bodyLarge
+                                                )
+                                                Spacer(modifier = Modifier.weight(1f))
+                                                Button(
+                                                    onClick = { task2Done = !task2Done }
+                                                ) {
+                                                    Text("Undo")
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        Card(
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(12.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = "  ",
+                                                    modifier = Modifier.background(MaterialTheme.colorScheme.primary).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                )
+                                                Text(
+                                                    text = "Review pull requests",
+                                                    style = MaterialTheme.typography.bodyLarge
+                                                )
+                                                Spacer(modifier = Modifier.weight(1f))
+                                                Button(
+                                                    onClick = { task2Done = !task2Done }
+                                                ) {
+                                                    Text("Done")
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (task3Done) {
+                                        Card(
+                                            modifier = Modifier.alpha(0.5f).fillMaxWidth()
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(12.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = "  ",
+                                                    modifier = Modifier.background(Color.Green).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                )
+                                                Text(
+                                                    text = "Update dependencies",
+                                                    color = Color.Gray,
+                                                    style = MaterialTheme.typography.bodyLarge
+                                                )
+                                                Spacer(modifier = Modifier.weight(1f))
+                                                Button(
+                                                    onClick = { task3Done = !task3Done }
+                                                ) {
+                                                    Text("Undo")
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        Card(
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(12.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = "  ",
+                                                    modifier = Modifier.background(MaterialTheme.colorScheme.primary).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                )
+                                                Text(
+                                                    text = "Update dependencies",
+                                                    style = MaterialTheme.typography.bodyLarge
+                                                )
+                                                Spacer(modifier = Modifier.weight(1f))
+                                                Button(
+                                                    onClick = { task3Done = !task3Done }
+                                                ) {
+                                                    Text("Done")
+                                                }
+                                            }
+                                        }
+                                    }
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                                    Text(
+                                        text = "Personal",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.padding(vertical = 8.dp)
+                                    )
+                                    if (task4Done) {
+                                        Card(
+                                            modifier = Modifier.alpha(0.5f).fillMaxWidth()
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(12.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = "  ",
+                                                    modifier = Modifier.background(Color.Green).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                )
+                                                Text(
+                                                    text = "Buy groceries",
+                                                    color = Color.Gray,
+                                                    style = MaterialTheme.typography.bodyLarge
+                                                )
+                                                Spacer(modifier = Modifier.weight(1f))
+                                                Button(
+                                                    onClick = { task4Done = !task4Done }
+                                                ) {
+                                                    Text("Undo")
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        Card(
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(12.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = "  ",
+                                                    modifier = Modifier.background(Color(0xFFFF9800)).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                )
+                                                Text(
+                                                    text = "Buy groceries",
+                                                    style = MaterialTheme.typography.bodyLarge
+                                                )
+                                                Spacer(modifier = Modifier.weight(1f))
+                                                Button(
+                                                    onClick = { task4Done = !task4Done }
+                                                ) {
+                                                    Text("Done")
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (task5Done) {
+                                        Card(
+                                            modifier = Modifier.alpha(0.5f).fillMaxWidth()
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(12.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = "  ",
+                                                    modifier = Modifier.background(Color.Green).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                )
+                                                Text(
+                                                    text = "Go for a run",
+                                                    color = Color.Gray,
+                                                    style = MaterialTheme.typography.bodyLarge
+                                                )
+                                                Spacer(modifier = Modifier.weight(1f))
+                                                Button(
+                                                    onClick = { task5Done = !task5Done }
+                                                ) {
+                                                    Text("Undo")
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        Card(
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(12.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = "  ",
+                                                    modifier = Modifier.background(Color(0xFFFF9800)).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                )
+                                                Text(
+                                                    text = "Go for a run",
+                                                    style = MaterialTheme.typography.bodyLarge
+                                                )
+                                                Spacer(modifier = Modifier.weight(1f))
+                                                Button(
+                                                    onClick = { task5Done = !task5Done }
+                                                ) {
+                                                    Text("Done")
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (task6Done) {
+                                        Card(
+                                            modifier = Modifier.alpha(0.5f).fillMaxWidth()
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(12.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = "  ",
+                                                    modifier = Modifier.background(Color.Green).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                )
+                                                Text(
+                                                    text = "Read a chapter",
+                                                    color = Color.Gray,
+                                                    style = MaterialTheme.typography.bodyLarge
+                                                )
+                                                Spacer(modifier = Modifier.weight(1f))
+                                                Button(
+                                                    onClick = { task6Done = !task6Done }
+                                                ) {
+                                                    Text("Undo")
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        Card(
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(12.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = "  ",
+                                                    modifier = Modifier.background(Color(0xFFFF9800)).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                )
+                                                Text(
+                                                    text = "Read a chapter",
+                                                    style = MaterialTheme.typography.bodyLarge
+                                                )
+                                                Spacer(modifier = Modifier.weight(1f))
+                                                Button(
+                                                    onClick = { task6Done = !task6Done }
+                                                ) {
+                                                    Text("Done")
+                                                }
+                                            }
+                                        }
+                                    }
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                                }
                 }
             }
-            Card(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Build with AUI",
-                        modifier = Modifier.padding(12.dp)
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Button(
-                        onClick = { taskCount-- }
-                    ) {
-                        Text("Done")
-                    }
+            1 -> {
+                Column(modifier = Modifier.padding(innerPadding)) {
+                                Column(
+                                    modifier = Modifier.padding(16.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(
+                                        text = "Quick Notes",
+                                        style = MaterialTheme.typography.headlineLarge,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Text(
+                                        text = "Jot down your thoughts",
+                                        color = Color.Gray,
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                    HorizontalDivider()
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    OutlinedTextField(
+                                        value = noteText,
+                                        onValueChange = { noteText = it },
+                                        label = { Text("Write something...") },
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Text(
+                                            text = "$noteText",
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            modifier = Modifier.padding(16.dp).fillMaxWidth()
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    Button(
+                                        onClick = { noteText = "" }
+                                    ) {
+                                        Text("Clear")
+                                    }
+                                    Spacer(modifier = Modifier.weight(1f))
+                                }
                 }
             }
-            Card(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Ship to Play Store",
-                        modifier = Modifier.padding(12.dp)
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Button(
-                        onClick = { taskCount-- }
-                    ) {
-                        Text("Done")
-                    }
+            2 -> {
+                Column(modifier = Modifier.padding(innerPadding)) {
+                                Column(
+                                    modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState())
+                                ) {
+                                    Text(
+                                        text = "Settings",
+                                        style = MaterialTheme.typography.headlineLarge,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    HorizontalDivider()
+                                    Text(
+                                        text = "Preferences",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.padding(vertical = 8.dp)
+                                    )
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Text(text = "Enable notifications", modifier = Modifier.weight(1f))
+                                        Switch(checked = notifications, onCheckedChange = { notifications = it })
+                                    }
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Text(text = "Compact mode", modifier = Modifier.weight(1f))
+                                        Switch(checked = compactMode, onCheckedChange = { compactMode = it })
+                                    }
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                                    Text(
+                                        text = "Data",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.padding(vertical = 8.dp)
+                                    )
+                                    if (showConfirm) {
+                                        AlertDialog(
+                                            onDismissRequest = { showConfirm = false },
+                                            title = { Text("Reset Tasks") },
+                                            text = { Text("This will mark all tasks as not done.") },
+                                            confirmButton = { TextButton(onClick = { showConfirm = false }) { Text("OK") } }
+                                        )
+                                    }
+                                    Button(
+                                        onClick = { showConfirm = !showConfirm },
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Text("Reset all tasks")
+                                    }
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                                    Text(
+                                        text = "About",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.padding(vertical = 8.dp)
+                                    )
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(16.dp),
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            Text(
+                                                text = "Todo App",
+                                                style = MaterialTheme.typography.titleLarge,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                            Text(
+                                                text = "Built with AUI Framework v0.1.0",
+                                                color = Color.Gray,
+                                                style = MaterialTheme.typography.bodyMedium
+                                            )
+                                            HorizontalDivider()
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = "Haxe",
+                                                    color = Color.Blue,
+                                                    style = MaterialTheme.typography.bodyMedium,
+                                                    fontWeight = FontWeight.Bold
+                                                )
+                                                Text(
+                                                    text = "+",
+                                                    color = Color.Gray
+                                                )
+                                                Text(
+                                                    text = "Jetpack Compose",
+                                                    color = Color.Blue,
+                                                    style = MaterialTheme.typography.bodyMedium,
+                                                    fontWeight = FontWeight.Bold
+                                                )
+                                            }
+                                            Text(
+                                                text = "Material Design 3",
+                                                color = Color.Gray,
+                                                style = MaterialTheme.typography.bodySmall
+                                            )
+                                        }
+                                    }
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                                }
                 }
             }
         }
-        Spacer(modifier = Modifier.weight(1f))
     }
 }
