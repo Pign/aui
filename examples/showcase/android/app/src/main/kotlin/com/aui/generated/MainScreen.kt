@@ -32,7 +32,7 @@ fun MainScreen() {
     var showAlert by remember { mutableStateOf(false) }
     var darkMode by remember { mutableStateOf(false) }
     var name by remember { mutableStateOf("") }
-    var sliderVal by remember { mutableStateOf(0f) }
+    var sliderVal by remember { mutableStateOf(0.5f) }
 
     var selectedTab by remember { mutableStateOf(0) }
 
