@@ -135,7 +135,7 @@ fun MainScreen() {
                                             ) {
                                                 Text(
                                                     text = "  ",
-                                                    modifier = Modifier.background(MaterialTheme.colorScheme.primary).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                    modifier = Modifier.background(Color.Unspecified).clip(RoundedCornerShape(4.dp)).padding(4.dp)
                                                 )
                                                 Text(
                                                     text = "Design new landing page",
@@ -187,7 +187,7 @@ fun MainScreen() {
                                             ) {
                                                 Text(
                                                     text = "  ",
-                                                    modifier = Modifier.background(MaterialTheme.colorScheme.primary).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                    modifier = Modifier.background(Color.Unspecified).clip(RoundedCornerShape(4.dp)).padding(4.dp)
                                                 )
                                                 Text(
                                                     text = "Review pull requests",
@@ -239,7 +239,7 @@ fun MainScreen() {
                                             ) {
                                                 Text(
                                                     text = "  ",
-                                                    modifier = Modifier.background(MaterialTheme.colorScheme.primary).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                    modifier = Modifier.background(Color.Unspecified).clip(RoundedCornerShape(4.dp)).padding(4.dp)
                                                 )
                                                 Text(
                                                     text = "Update dependencies",
@@ -298,7 +298,7 @@ fun MainScreen() {
                                             ) {
                                                 Text(
                                                     text = "  ",
-                                                    modifier = Modifier.background(Color(0xFFFF9800)).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                    modifier = Modifier.background(Color.Unspecified).clip(RoundedCornerShape(4.dp)).padding(4.dp)
                                                 )
                                                 Text(
                                                     text = "Buy groceries",
@@ -350,7 +350,7 @@ fun MainScreen() {
                                             ) {
                                                 Text(
                                                     text = "  ",
-                                                    modifier = Modifier.background(Color(0xFFFF9800)).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                    modifier = Modifier.background(Color.Unspecified).clip(RoundedCornerShape(4.dp)).padding(4.dp)
                                                 )
                                                 Text(
                                                     text = "Go for a run",
@@ -402,7 +402,7 @@ fun MainScreen() {
                                             ) {
                                                 Text(
                                                     text = "  ",
-                                                    modifier = Modifier.background(Color(0xFFFF9800)).clip(RoundedCornerShape(4.dp)).padding(4.dp)
+                                                    modifier = Modifier.background(Color.Unspecified).clip(RoundedCornerShape(4.dp)).padding(4.dp)
                                                 )
                                                 Text(
                                                     text = "Read a chapter",
