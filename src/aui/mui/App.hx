@@ -26,6 +26,7 @@ package aui.mui;
 // describer installed below, and is served by cafos rather than by us.
 @:hostedRoles(Glance, Companion)
 @:autoBuild(mui.macros.Surfaces.build())
+@:autoBuild(mui.macros.Intents.build())
 class App extends aui.App {
     public function new() {
         super();
@@ -62,4 +63,9 @@ class App extends aui.App {
     /** What `@:surface` declared. `mui.macros.Surfaces` overrides this on the
         application; the default is the empty answer. **/
     public function declaredSurfaces():Array<mui.surface.SurfaceDecl> return [];
+
+    /** What `@:intent` declared. `mui.macros.Intents` overrides this on the
+        application; the default is the empty answer. `dui.state.Share.join`
+        hands it to the registry, so a call arriving by name can run. **/
+    public function declaredIntents():Array<rui.state.Shared.IntentDecl> return [];
 }
