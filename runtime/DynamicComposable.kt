@@ -9,6 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 
 /**
@@ -204,7 +208,41 @@ fun DynamicRoot() {
     // The counter never showed it, its content being in the middle of the
     // screen.
     Box(modifier = Modifier.safeDrawingPadding()) {
-        DynamicView(root)
+        RoundScreenInset { DynamicView(root) }
+    }
+}
+
+/**
+ * Keep a rectangular tree inside a round screen.
+ *
+ * `safeDrawingPadding` knows about bars, notches and the home indicator --
+ * all of them edges. A watch face is not an edge: the usable region is the
+ * disc inscribed in the square, and the four corners are lost in a way four
+ * edge insets cannot describe. A tree laid out to the full square draws its
+ * first line and its last button into the corners, where the glass is not.
+ * Seen on a Pixel Watch 3: "Counter" cut at the left, "+10" clipped at the
+ * bottom.
+ *
+ * The largest square that fits in a circle of diameter d has side d/√2, so
+ * each side is inset by d·(1 − 1/√2)/2 ≈ 14.6 %. That is what this applies,
+ * on the smaller dimension, and only when the platform says the screen is
+ * round -- a fact about the hardware, not a build flag.
+ *
+ * What it costs: about 30 % of the width, which is the honest price of a
+ * rectangular layout on a round screen. A layout that wants the corners --
+ * a curved list, a dial -- needs to know the shape, not merely avoid it; that
+ * is the model change `pui.Display` still lacks, and it is not decided here.
+ */
+@Composable
+fun RoundScreenInset(content: @Composable () -> Unit) {
+    if (!LocalConfiguration.current.isScreenRound) {
+        content()
+        return
+    }
+    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        val d = if (maxWidth < maxHeight) maxWidth else maxHeight
+        val inset = d * 0.1464f
+        Box(modifier = Modifier.padding(inset)) { content() }
     }
 }
 
