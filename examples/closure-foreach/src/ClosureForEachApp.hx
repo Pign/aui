@@ -32,7 +32,7 @@ class ClosureForEachApp extends App {
     override public function body():View {
         return new VStack([
             new Text("Closure-form ForEach demo").bold(),
-            new ForEach(colors, color ->
+            new ForEach(colors_, color ->
                 new Text(color)
             ),
         ]).padding();

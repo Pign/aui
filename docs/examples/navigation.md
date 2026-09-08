@@ -15,8 +15,8 @@ class NavDemo extends App {
                 new Section("Counter", [
                     Text.withState("Count: {count}"),
                     new HStack(12, [
-                        new Button("-", count.dec()),
-                        new Button("+", count.inc())
+                        new Button("-", count_.dec()),
+                        new Button("+", count_.inc())
                     ])
                 ])
             ]).padding()),

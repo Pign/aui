@@ -33,8 +33,8 @@ class Counter extends App {
             Text.withState("{count}").font(FontStyle.DisplayLarge),
             new Spacer(),
             new HStack(16, [
-                new Button("-", count.dec()),
-                new Button("+", count.inc())
+                new Button("-", count_.dec()),
+                new Button("+", count_.inc())
             ]),
             new Spacer()
         ]).padding();
@@ -46,7 +46,7 @@ class Counter extends App {
 
 - **`@:state var count:Int = 0`** &mdash; Declares reactive state, generates `var count by remember { mutableStateOf(0) }`
 - **`Text.withState("{count}")`** &mdash; Displays state with automatic updates, generates `Text(text = "$count")`
-- **`count.inc()` / `count.dec()`** &mdash; State actions in Button onClick, generates `count++` / `count--`
+- **`count_.inc()` / `count_.dec()`** &mdash; State actions in Button onClick, generates `count++` / `count--`
 - **`new HStack(16, [...])`** &mdash; Horizontal row with 16dp spacing
 
 Tapping the +/- buttons updates the count in real time thanks to Compose's reactive recomposition.

@@ -27,7 +27,7 @@ class Looped extends App {
 	override public function body():View {
 		return new VStack(null, null, [
 			new Text("colors"),
-			new ForEach(colors, color -> new Text(color))
+			new ForEach(colors_, color -> new Text(color))
 		]);
 	}
 }

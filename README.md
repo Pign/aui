@@ -23,8 +23,8 @@ class Counter extends App {
 			new Text("Counter").font(FontStyle.HeadlineLarge).bold(),
 			Text.withState("{count}").font(FontStyle.DisplayLarge),
 			new HStack(16, [
-				new Button("-", count.dec()),
-				new Button("+", count.inc())
+				new Button("-", count_.dec()),
+				new Button("+", count_.inc())
 			])
 		]).padding();
 	}

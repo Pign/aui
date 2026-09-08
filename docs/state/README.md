@@ -14,10 +14,10 @@ class MyApp extends App {
     override function body():View {
         return new VStack([
             Text.withState("Count: {count}"),     // Reads state
-            new Button("+", count.inc()),           // Mutates state
-            new TextField("Name", name),            // Two-way binding
-            new Toggle("Switch", isOn),             // Two-way binding
-            new ConditionalView(isOn,               // Conditional on state
+            new Button("+", count_.inc()),           // Mutates state
+            new TextField("Name", name_),            // Two-way binding
+            new Toggle("Switch", isOn_),             // Two-way binding
+            new ConditionalView(isOn_,               // Conditional on state
                 new Text("On!"),
                 new Text("Off")
             )
@@ -30,7 +30,7 @@ class MyApp extends App {
 
 1. `@:state var count:Int = 0` is transformed by `StateMacro` into a `State<Int>` field on the App instance
 2. `State<T>` wraps a Compose `MutableState` created via `aui.state.StateBridge` (a Kotlin runtime object AUI copies into the generated project); the Haxe side only holds an opaque reference
-3. Your `body()` reads and writes that cell as plain Haxe — `count.get()`, `count.set(...)` — and the renderer applies a declarative action the same way
+3. Your `body()` reads and writes that cell as plain Haxe — `count`, `count = ...` — and the renderer applies a declarative action the same way
 4. Those reads happen *inside* composition, so Compose's snapshot system records them through the JVM frames Haxe emits, and any write — from a Compose handler or from pure Haxe logic — recomposes what read it
 
 ## What backs it

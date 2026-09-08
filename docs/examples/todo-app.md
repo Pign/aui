@@ -46,8 +46,8 @@ class TodoApp extends App {
                 new Divider(),
                 // Work section with purple indicators
                 new Section("Work", [
-                    taskItem("Design new landing page", task1Done, ColorValue.Primary),
-                    taskItem("Review pull requests", task2Done, ColorValue.Primary),
+                    taskItem("Design new landing page", task1Done_, ColorValue.Primary),
+                    taskItem("Review pull requests", task2Done_, ColorValue.Primary),
                 ]),
                 // Personal section with orange indicators
                 new Section("Personal", [
@@ -57,15 +57,15 @@ class TodoApp extends App {
             ]).padding()),
 
             new Tab("Notes", "edit", new VStack([
-                new TextField("Write something...", noteText),
+                new TextField("Write something...", noteText_),
                 new Card([ Text.withState("{noteText}").padding(16) ]),
-                new Button("Clear", noteText.setTo(""))
+                new Button("Clear", noteText_.setTo(""))
             ]).padding()),
 
             new Tab("Settings", "settings", new ScrollView([
-                new Toggle("Enable notifications", notifications),
-                new Button("Reset all tasks", showConfirm.tog())
-                    .alert("Reset Tasks", showConfirm, "This will mark all tasks as not done."),
+                new Toggle("Enable notifications", notifications_),
+                new Button("Reset all tasks", showConfirm_.tog())
+                    .alert("Reset Tasks", showConfirm_, "This will mark all tasks as not done."),
                 new Card([ /* About info */ ])
             ]).padding())
         ]);
@@ -80,6 +80,6 @@ class TodoApp extends App {
 - **State<Bool> toggling** &mdash; `done.tog()` flips the boolean, instantly swapping the ConditionalView.
 - **TabView** &mdash; 3 tabs (Tasks, Notes, Settings) with Material 3 NavigationBar and icons.
 - **TextField binding** &mdash; Live text preview in a Card below the input.
-- **AlertDialog** &mdash; `.alert()` modifier with `showConfirm.tog()` trigger.
+- **AlertDialog** &mdash; `.alert()` modifier with `showConfirm_.tog()` trigger.
 - **Cards, Sections, ScrollView** &mdash; Material containers and grouping.
 - **Color-coded categories** &mdash; Purple for work, orange for personal.

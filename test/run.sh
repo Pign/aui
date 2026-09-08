@@ -45,7 +45,7 @@ echo "aui — dynamic renderer coverage"
 cover() {
 	local fixture="$1" expect="$2" type="${3:-}" defines="${4:-}" out code work
 	work=$(mktemp -d)
-	out=$(cd "$work" && haxe -cp "$root/src" -cp "$root/test/coverage" -lib rui -lib nui \
+	out=$(cd "$work" && haxe -cp "$root/src" -cp "$root/test/coverage" -lib rui -lib nui -lib kui \
 		-D jvm --jvm coverage-check.jar $defines \
 		--macro 'aui.macros.ComposeGenerator.register()' -main "$fixture" 2>&1)
 	code=$?
@@ -96,7 +96,7 @@ cover Composed reject aui.ViewComponent "-D aui_static" || failures=1
 
 # Asking for it must say it is decommissioned, at the top of the build.
 work=$(mktemp -d)
-out=$(cd "$work" && haxe -cp "$root/src" -cp "$root/test/coverage" -lib rui -lib nui \
+out=$(cd "$work" && haxe -cp "$root/src" -cp "$root/test/coverage" -lib rui -lib nui -lib kui \
 	-D jvm --jvm coverage-check.jar -D aui_static \
 	--macro 'aui.macros.ComposeGenerator.register()' -main Couvert 2>&1)
 rm -rf "$work"
@@ -111,7 +111,7 @@ fi
 # Both defines is a leftover, not a preference: guessing either way builds
 # something nobody asked for.
 work=$(mktemp -d)
-out=$(cd "$work" && haxe -cp "$root/src" -cp "$root/test/coverage" -lib rui -lib nui \
+out=$(cd "$work" && haxe -cp "$root/src" -cp "$root/test/coverage" -lib rui -lib nui -lib kui \
 	-D jvm --jvm coverage-check.jar -D aui_static -D aui_dynamic \
 	--macro 'aui.macros.ComposeGenerator.register()' -main Couvert 2>&1)
 code=$?

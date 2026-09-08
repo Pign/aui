@@ -24,8 +24,8 @@ class MyApp extends App {
 
     override function body():View {
         return new VStack([
-            taskItem("First task", task1Done),
-            taskItem("Second task", task2Done)
+            taskItem("First task", task1Done_),
+            taskItem("Second task", task2Done_)
         ]);
     }
 }

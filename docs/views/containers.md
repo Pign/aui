@@ -27,7 +27,7 @@ Conditionally shows one of two views based on a `State<Bool>`.
 ```haxe
 @:state var isLoggedIn:Bool = false;
 
-new ConditionalView(isLoggedIn,
+new ConditionalView(isLoggedIn_,
     new Text("Welcome back!"),              // shown when true
     new Text("Please log in")               // shown when false
 )

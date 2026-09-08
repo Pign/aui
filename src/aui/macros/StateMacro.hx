@@ -83,15 +83,17 @@ class StateMacro {
 						if (durable != null)
 							defaultExpr = rui.macros.DurableState.hydrate(durable, defaultExpr);
 
-						field.kind = FVar(stateType, null);
+						// The field becomes a property over a cell named `count_` -- see
+						// rui.macros.StateProperty. The cell is what the constructor builds
+						// and what a durable store binds; the registry name stays the field's
+						// own, so templates and Kotlin keep finding "count".
+						var cell = rui.macros.StateProperty.cellName(fieldName);
 						field.meta = []; // Remove @:state meta
-
-						// Add initialization to constructor
-						stateInits.push(macro this.$fieldName = new aui.state.State($defaultExpr, $v{fieldName}));
+						stateInits.push(macro this.$cell = new aui.state.State($defaultExpr, $v{fieldName}));
 						if (durable != null)
-							stateInits.push(rui.macros.DurableState.bindCall(durable, macro this, fieldName, field.pos));
-
-						newFields.push(field);
+							stateInits.push(rui.macros.DurableState.bindCall(durable, macro this, cell, field.pos));
+						for (f in rui.macros.StateProperty.split(field, t, stateType))
+							newFields.push(f);
 					default:
 						newFields.push(field);
 				}

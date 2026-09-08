@@ -78,14 +78,14 @@ class TodoApp extends App {
 				]).fillMaxWidth(),
 				new Divider(),
 				new Section("Work", [
-					taskItem("Design new landing page", task1Done, ColorValue.Primary),
-					taskItem("Review pull requests", task2Done, ColorValue.Primary),
-					taskItem("Update dependencies", task3Done, ColorValue.Primary)
+					taskItem("Design new landing page", task1Done_, ColorValue.Primary),
+					taskItem("Review pull requests", task2Done_, ColorValue.Primary),
+					taskItem("Update dependencies", task3Done_, ColorValue.Primary)
 				]),
 				new Section("Personal", [
-					taskItem("Buy groceries", task4Done, ColorValue.Orange),
-					taskItem("Go for a run", task5Done, ColorValue.Orange),
-					taskItem("Read a chapter", task6Done, ColorValue.Orange)
+					taskItem("Buy groceries", task4Done_, ColorValue.Orange),
+					taskItem("Go for a run", task5Done_, ColorValue.Orange),
+					taskItem("Read a chapter", task6Done_, ColorValue.Orange)
 				])
 			]).padding()),
 
@@ -95,13 +95,13 @@ class TodoApp extends App {
 				new Text("Jot down your thoughts").foregroundColor(ColorValue.Gray).font(FontStyle.BodyMedium),
 				new Divider(),
 				new Spacer(),
-				new TextField("Write something...", noteText),
+				new TextField("Write something...", noteText_),
 				new Spacer(),
 				new Card([
 					Text.withState("{noteText}").font(FontStyle.BodyLarge).padding(16).fillMaxWidth()
 				]),
 				new Spacer(),
-				new Button("Clear", noteText.setTo("")),
+				new Button("Clear", noteText_.setTo("")),
 				new Spacer()
 			]).padding()),
 
@@ -110,12 +110,12 @@ class TodoApp extends App {
 				new Text("Settings").font(FontStyle.HeadlineLarge).bold(),
 				new Divider(),
 				new Section("Preferences", [
-					new Toggle("Enable notifications", notifications),
-					new Toggle("Compact mode", compactMode)
+					new Toggle("Enable notifications", notifications_),
+					new Toggle("Compact mode", compactMode_)
 				]),
 				new Section("Data", [
-					new Button("Reset all tasks", showConfirm.tog())
-						.alert("Reset Tasks", showConfirm, "This will mark all tasks as not done.")
+					new Button("Reset all tasks", showConfirm_.tog())
+						.alert("Reset Tasks", showConfirm_, "This will mark all tasks as not done.")
 						.fillMaxWidth()
 				]),
 				new Section("About", [

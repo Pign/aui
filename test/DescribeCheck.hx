@@ -35,15 +35,15 @@ class DescribeCheck extends App {
 
 	public function new() {
 		super();
-		todos.set(["a", "b"]);
+		todos = ["a", "b"];
 	}
 
 	override function body():View {
 		return new VStack([
 			new Text("hello"),
 			new Button("Go", () -> taps.push("go")),
-			new Toggle("Lamp", (lit : ToggleBinding)),
-			ForEach.build(todos, (s:String) -> new Text(s)),
+			new Toggle("Lamp", (lit_ : ToggleBinding)),
+			ForEach.build(todos_, (s:String) -> new Text(s)),
 		], 8);
 	}
 
@@ -80,7 +80,7 @@ class DescribeCheck extends App {
 			case PCallbackBool(fn): fn(true);
 			case _:
 		}
-		check("a described binding writes back to the state", app.lit.get() == true);
+		check("a described binding writes back to the state", app.lit == true);
 
 		// --- The pipe: project -> wire -> inflate -> invoke ---
 		var table = new nui.Snapshot.ActionTable();
@@ -97,12 +97,12 @@ class DescribeCheck extends App {
 
 		// The toggle's typed shape crosses too: "true" parses against the
 		// recorded PCallbackBool and lands in the cell.
-		app.lit.set(false);
+		app.lit = false;
 		switch (PropValueTools.resolve(inflated.children[2].props.get("onToggle"))) {
 			case PCallbackString(fn): fn("true");
 			case _:
 		}
-		check("a remote toggle write reaches the @:state cell", app.lit.get() == true);
+		check("a remote toggle write reaches the @:state cell", app.lit == true);
 
 		Sys.println(fails == 0 ? "\nall good" : '\n$fails failed');
 		Sys.exit(fails == 0 ? 0 : 1);

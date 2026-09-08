@@ -26,7 +26,7 @@ Default values are extracted from the `@:state` declaration.
 
 ### How state is backed
 
-Each `@:state` field becomes a `State<T>` on your **App instance**, backed at runtime by a Compose `MutableState` created through the `aui.state.StateBridge` runtime. Reads go through `count.get()` and writes through `count.set(...)`, in plain Haxe.
+Each `@:state` field becomes a `State<T>` on your **App instance**, backed at runtime by a Compose `MutableState` created through the `aui.state.StateBridge` runtime. Reads go through `count` and writes through `count = ...`, in plain Haxe.
 
 Because the cell lives on the app (not a Kotlin `remember` local), a write from **anywhere** — including pure Haxe logic invoked outside a `@Composable` — triggers recomposition. Reads inside a `@Composable` are tracked by Compose's snapshot system automatically. Haxe code never imports Compose types; it only sees the opaque `State<T>`.
 
@@ -36,14 +36,14 @@ State actions are declarative mutations used in Button onClick handlers. They're
 
 | Action | Usage | What it does |
 |--------|-------|--------------|
-| `inc()` | `count.inc()` | `count.set(count.get() + 1)` |
-| `inc(n)` | `count.inc(5)` | `count.set(count.get() + 5)` |
-| `dec()` | `count.dec()` | `count.set(count.get() - 1)` |
-| `dec(n)` | `count.dec(5)` | `count.set(count.get() - 5)` |
-| `setTo(val)` | `count.setTo(0)` | `count.set(0)` |
+| `inc()` | `count_.inc()` | `count += 1` |
+| `inc(n)` | `count_.inc(5)` | `count += 5` |
+| `dec()` | `count_.dec()` | `count -= 1` |
+| `dec(n)` | `count_.dec(5)` | `count -= 5` |
+| `setTo(val)` | `count_.setTo(0)` | `count = 0` |
 | `tog()` | `flag.tog()` | `flag.set(!flag.get())` |
 
-An action is **declarative**: `count.inc()` describes a change rather than
+An action is **declarative**: `count_.inc()` describes a change rather than
 performing one. That is what let the transpiler translate it into Kotlin, and it
 is why the renderer can *apply* it — in Haxe, from the enum on the node — with
 no translation existing at runtime. A plain closure works too; see
@@ -52,9 +52,9 @@ no translation existing at runtime. A plain closure works too; see
 ### Usage in Button
 
 ```haxe
-new Button("+", count.inc())
-new Button("Reset", count.setTo(0))
-new Button("Toggle", isEnabled.tog())
+new Button("+", count_.inc())
+new Button("Reset", count_.setTo(0))
+new Button("Toggle", isEnabled_.tog())
 ```
 
 ## Text.withState
@@ -87,8 +87,8 @@ TextField, Toggle, and Slider support two-way state binding:
 @:state var text:String = "";
 @:state var enabled:Bool = false;
 
-new TextField("Placeholder", text)   // types update text state
-new Toggle("Label", enabled)          // switch updates enabled state
+new TextField("Placeholder", text_)   // types update text state
+new Toggle("Label", enabled_)          // switch updates enabled state
 ```
 
 ## Presentation modifiers with state
@@ -98,8 +98,8 @@ new Toggle("Label", enabled)          // switch updates enabled state
 ```haxe
 @:state var showAlert:Bool = false;
 
-new Button("Show", showAlert.tog())
-    .alert("Title", showAlert, "Message text")
+new Button("Show", showAlert_.tog())
+    .alert("Title", showAlert_, "Message text")
 ```
 
 When `showAlert` becomes true, the AlertDialog appears. Dismissing it sets `showAlert` back to false.
@@ -111,8 +111,8 @@ Show different views based on a boolean state:
 ```haxe
 @:state var isDone:Bool = false;
 
-new ConditionalView(isDone,
+new ConditionalView(isDone_,
     new Text("Completed!").foregroundColor(ColorValue.Green),
-    new Button("Mark done", isDone.tog())
+    new Button("Mark done", isDone_.tog())
 )
 ```

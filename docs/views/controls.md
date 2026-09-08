@@ -47,7 +47,7 @@ Text input field bound to a `State<String>`.
 ```haxe
 @:state var name:String = "";
 
-new TextField("Enter your name", name)
+new TextField("Enter your name", name_)
 ```
 
 | Parameter | Type | Description |
@@ -73,7 +73,7 @@ On/off switch bound to a `State<Bool>`.
 ```haxe
 @:state var darkMode:Bool = false;
 
-new Toggle("Dark mode", darkMode)
+new Toggle("Dark mode", darkMode_)
 ```
 
 | Parameter | Type | Description |
@@ -90,7 +90,7 @@ Numeric slider bound to a `State<Float>`.
 ```haxe
 @:state var volume:Float = 0.5;
 
-new Slider(volume)
+new Slider(volume_)
 ```
 
 | Parameter | Type | Description |

@@ -40,8 +40,8 @@ class Showcase extends App {
 				new Text("Widgets").font(FontStyle.HeadlineLarge).bold(),
 				new Divider(),
 				new Section("Text Input", [
-					new TextField("Enter your name", name),
-					new ConditionalView(darkMode,
+					new TextField("Enter your name", name_),
+					new ConditionalView(darkMode_,
 						Text.withState("Hello, {name}!").font(FontStyle.TitleLarge).foregroundColor(ColorValue.Blue),
 						Text.withState("Hello, {name}!").font(FontStyle.TitleLarge)
 					)
@@ -49,17 +49,17 @@ class Showcase extends App {
 				new Section("Counter", [
 					Text.withState("Count: {count}").font(FontStyle.TitleLarge),
 					new HStack(12, [
-						new Button("-", count.dec()),
-						new Button("Reset", count.setTo(0)),
-						new Button("+", count.inc())
+						new Button("-", count_.dec()),
+						new Button("Reset", count_.setTo(0)),
+						new Button("+", count_.inc())
 					])
 				]),
 				new Section("Toggle", [
-					new Toggle("Dark Mode", darkMode)
+					new Toggle("Dark Mode", darkMode_)
 				]),
 				new Section("Alert", [
-					new Button("Show Alert", showAlert.tog())
-						.alert("Hello!", showAlert, "This alert was triggered from Haxe")
+					new Button("Show Alert", showAlert_.tog())
+						.alert("Hello!", showAlert_, "This alert was triggered from Haxe")
 				]),
 				new Spacer()
 			]).padding()),

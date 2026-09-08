@@ -59,8 +59,8 @@ class MyApp extends App {
             new Text("Hello from Haxe!").font(FontStyle.HeadlineLarge).bold(),
             Text.withState("Count: {count}").font(FontStyle.DisplayLarge),
             new HStack(12, [
-                new Button("-", count.dec()),
-                new Button("+", count.inc())
+                new Button("-", count_.dec()),
+                new Button("+", count_.inc())
             ])
         ]).padding();
     }

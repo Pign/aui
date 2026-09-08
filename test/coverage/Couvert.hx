@@ -19,7 +19,7 @@ class Couvert extends App {
 	override public function body():View {
 		return new VStack(null, null, [
 			new Text("count: " + n),
-			new Button("+", n.inc())
+			new Button("+", n_.inc())
 		]);
 	}
 }
