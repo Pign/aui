@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Build native Android apps in Haxe using Jetpack Compose">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <link rel="stylesheet" href="vendor/vue.css">
   <style>
     :root {
       --theme-color: #6750A4;
@@ -27,6 +27,7 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
+      noEmoji: true,
       name: 'aui',
       repo: 'https://github.com/lapavoiserie/aui',
       coverpage: true,
@@ -41,12 +42,11 @@
       routerMode: 'hash'
     };
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-haxe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-kotlin.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@2/dist/docsify-mermaid.js"></script>
+  <script src="vendor/docsify.min.js"></script>
+  <script src="vendor/search.min.js"></script>
+  <script src="vendor/prism-haxe.min.js"></script>
+  <script src="vendor/prism-kotlin.min.js"></script>
+  <script src="vendor/prism-bash.min.js"></script>
+  <script src="vendor/prism-json.min.js"></script>
 </body>
 </html>
