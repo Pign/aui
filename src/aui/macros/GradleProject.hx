@@ -15,6 +15,10 @@ class GradleProject {
 		targetSdk:Int,
 		compileSdk:Int,
 		?android:AndroidPackagingConfig,
+		/** The application's own `<uses-permission>` entries, from
+			`aui.json`. Separate from a capability's, which travel with the
+			capability. **/
+		?permissions:Array<String>,
 		/** The application declares a `Glance` surface, so the project needs
 			the App Widget: its Jetpack Glance dependency, its receiver in the
 			manifest, and the provider XML the receiver points at. **/
@@ -244,10 +248,10 @@ class GradleProject {
 		remember to add, and forgetting it becomes impossible rather than merely
 		documented.
 
-		The application's own `<uses-permission>` entries are not touched: this file
-		does not write any, and one an author added by hand is in a manifest this
-		generator overwrites — a known limitation of the generated tree, not
-		something `kui` introduces.
+		The application's own entries are separate, and come from
+		`aui.json#permissions` — see `appPermissions`. They have to come from
+		somewhere the generator reads, because it overwrites the manifest on
+		every build and one added there by hand would not survive.
 	**/
 	/**
 		The manifest components a `kui` capability carries.
@@ -272,6 +276,26 @@ class GradleProject {
 		return lines;
 	}
 
+	/**
+		What the application itself asks for, from `aui.json#permissions`.
+
+		Not everything an application needs travels with a capability. An app
+		that opens a socket of its own needs `android.permission.INTERNET`,
+		and nothing in `kui` knows that it does — the sockets are Haxe's. So
+		an application states its own, in the file it already configures
+		itself from, and the generator writes them where a hand-edited
+		manifest would have been overwritten.
+	**/
+	static function appPermissions(names:Null<Array<String>>):Array<String> {
+		if (names == null || names.length == 0)
+			return [];
+		var lines = ["    <!-- Asked for by the application (aui.json#permissions) -->"];
+		for (name in names)
+			lines.push('    <uses-permission android:name="' + name + '" />');
+		lines.push("");
+		return lines;
+	}
+
 	static function kuiPermissions():Array<String> {
 		var names = kui.macros.Emit.current().strings("gradle", "permissions");
 		if (names.length == 0) return [];
@@ -285,6 +309,7 @@ class GradleProject {
 	static function generateManifest(srcDir:String, config:{
 		appName:String,
 		packageName:String,
+		?permissions:Array<String>,
 		minSdk:Int,
 		targetSdk:Int,
 		compileSdk:Int,
@@ -310,7 +335,7 @@ class GradleProject {
 			'<?xml version="1.0" encoding="utf-8"?>',
 			'<manifest xmlns:android="http://schemas.android.com/apk/res/android">',
 			"",
-		].concat(kuiPermissions()).concat([
+		].concat(appPermissions(config.permissions)).concat(kuiPermissions()).concat([
 			"    <application",
 		]).concat(applicationAttrs).concat([
 			"        <activity",

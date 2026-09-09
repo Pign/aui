@@ -183,6 +183,11 @@ class ComposeGenerator {
 		var compileSdk = 35;
 
 		var androidConfig:Null<AndroidPackagingConfig> = null;
+		// What the APPLICATION needs, as opposed to what a kui capability
+		// brings with it. The manifest is regenerated on every build, so one
+		// added by hand does not survive -- this is where an application says
+		// it, once, in the file it already configures itself from.
+		var permissions:Null<Array<String>> = null;
 		if (FileSystem.exists("aui.json")) {
 			try {
 				var json = haxe.Json.parse(File.getContent("aui.json"));
@@ -192,6 +197,7 @@ class ComposeGenerator {
 				if (json.targetSdk != null) targetSdk = json.targetSdk;
 				if (json.compileSdk != null) compileSdk = json.compileSdk;
 				if (json.android != null) androidConfig = json.android;
+				if (json.permissions != null) permissions = json.permissions;
 			} catch (e:Dynamic) {}
 		}
 
@@ -211,6 +217,7 @@ class ComposeGenerator {
 			targetSdk: targetSdk,
 			compileSdk: compileSdk,
 			android: androidConfig,
+			permissions: permissions,
 			glanceWidget: declaresGlance
 		});
 		if (firstGenerate) {
