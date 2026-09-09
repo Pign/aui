@@ -249,7 +249,7 @@ class GradleProject {
 		documented.
 
 		The application's own entries are separate, and come from
-		`aui.json#permissions` — see `appPermissions`. They have to come from
+		`aui.json#permissions` — see `permissionLines`. They have to come from
 		somewhere the generator reads, because it overwrites the manifest on
 		every build and one added there by hand would not survive.
 	**/
@@ -286,23 +286,39 @@ class GradleProject {
 		itself from, and the generator writes them where a hand-edited
 		manifest would have been overwritten.
 	**/
-	static function appPermissions(names:Null<Array<String>>):Array<String> {
-		if (names == null || names.length == 0)
-			return [];
-		var lines = ["    <!-- Asked for by the application (aui.json#permissions) -->"];
-		for (name in names)
-			lines.push('    <uses-permission android:name="' + name + '" />');
-		lines.push("");
-		return lines;
-	}
+	/**
+		Every `<uses-permission>` the manifest needs, each written once.
 
-	static function kuiPermissions():Array<String> {
-		var names = kui.macros.Emit.current().strings("gradle", "permissions");
-		if (names.length == 0) return [];
+		The application asks for some and its capabilities bring others, and
+		the two lists overlap the moment an application uses a capability for
+		the very thing it also asked for — `INTERNET`, in the first case that
+		showed this. A repeated `<uses-permission>` is legal and Android
+		ignores the second, but the manifest then reads as if two authors
+		disagreed, and a person auditing what an application may do has to
+		notice that they did not.
 
-		var lines = ["    <!-- Needed by kui capabilities -->"];
-		for (name in names) lines.push('    <uses-permission android:name="' + name + '" />');
-		lines.push("");
+		The application's come first, because that is the order a reader
+		expects: what this app asks for, then what it asks for through
+		somebody else.
+	**/
+	static function permissionLines(app:Null<Array<String>>):Array<String> {
+		var seen = new Map<String, Bool>();
+		var lines:Array<String> = [];
+
+		function group(header:String, names:Array<String>):Void {
+			var fresh = [for (n in names) if (!seen.exists(n)) n];
+			if (fresh.length == 0)
+				return;
+			lines.push(header);
+			for (n in fresh) {
+				seen.set(n, true);
+				lines.push('    <uses-permission android:name="' + n + '" />');
+			}
+			lines.push("");
+		}
+
+		group("    <!-- Asked for by the application (aui.json#permissions) -->", app == null ? [] : app);
+		group("    <!-- Needed by kui capabilities -->", kui.macros.Emit.current().strings("gradle", "permissions"));
 		return lines;
 	}
 
@@ -335,7 +351,7 @@ class GradleProject {
 			'<?xml version="1.0" encoding="utf-8"?>',
 			'<manifest xmlns:android="http://schemas.android.com/apk/res/android">',
 			"",
-		].concat(appPermissions(config.permissions)).concat(kuiPermissions()).concat([
+		].concat(permissionLines(config.permissions)).concat([
 			"    <application",
 		]).concat(applicationAttrs).concat([
 			"        <activity",
